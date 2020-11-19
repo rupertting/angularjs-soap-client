@@ -3,3 +3,14 @@
   Showing of 'interpolate' filter:
   {{ 'Current version is v%VERSION%.' | interpolate }}
 </p>
+
+<body ng-controller="View2Ctrl">
+  <button ng-click="fetchJoke(processJoke)">
+    Fetch joke
+  </button> <br>
+  <span>
+    <h3>Joke</h3> 
+    {{ setup }} <br>
+    {{ punchline }} <br>
+  </span>
+</body> <br>

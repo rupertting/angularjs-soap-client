@@ -9,7 +9,10 @@
     "angular": "^1.7.5",
     "angular-loader": "^1.7.5",
     "angular-route": "^1.7.5",
-    "html5-boilerplate": "0.0.1"
+    "angular-soap": "^2.2.7",
+    "cors-anywhere": "^0.4.3",
+    "html5-boilerplate": "0.0.1",
+    "soap": "^0.35.0"
   },
   "devDependencies": {
     "angular-mocks": "^1.7.5",

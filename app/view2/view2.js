@@ -9,6 +9,23 @@ angular.module('myApp.view2', ['ngRoute'])
   });
 }])
 
-.controller('View2Ctrl', [function() {
+  .controller('View2Ctrl', ['$scope', '$http', function($scope, $http) {
+    
+    var proxy_url = "http://127.0.0.1:8080/";
+    var base_url = "https://joke-api-strict-cors.appspot.com/random_joke";
+    
+    $scope.fetchJoke = function (callback) {
+     $http.get(proxy_url + base_url)
+       .then(function (response) {
+         callback(response.data);
+        })
+    }
 
+    $scope.setup = "";
+    $scope.punchline = "";
+    
+    $scope.processJoke = function (joke) {
+       $scope.setup = joke.setup;
+       $scope.punchline = joke.punchline;
+    }
 }]);
