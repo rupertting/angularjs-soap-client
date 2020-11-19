@@ -10,14 +10,14 @@ angular.module('myApp.view1', ['ngRoute'])
     });
   }])
 
-  .factory("soapService", [function () {
+  .factory("soapService", ['$http', function ($http) {
     var base_url = "https://www.dataaccess.com/webservicesserver/NumberConversion.wso"
     var proxy_url = "http://127.0.0.1:8080/"
 
     return {
-      soap: function () {
-        var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open('POST', proxy_url + base_url, true);
+      soap: function (body) {
+        // var xmlhttp = new XMLHttpRequest();
+        //     xmlhttp.open('POST', proxy_url + base_url, true);
 
             // build SOAP request
             var sr =
@@ -25,32 +25,39 @@ angular.module('myApp.view1', ['ngRoute'])
                   '<soap:Envelope ' +
                   'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
                     '<soap:Body>' + 
-                      '<NumberToWords xmlns="http://www.dataaccess.com/webservicesserver/">' +
-                        '<ubiNum>500</ubiNum>' +
-                      '</NumberToWords>' +
+                      body +
                     '</soap:Body>' +
                   '</soap:Envelope>';
 
-            xmlhttp.onreadystatechange = function () {
-                if (xmlhttp.readyState == 4) {
-                  if (xmlhttp.status == 200) {
-                      alert(xmlhttp.responseText);
-                    }
-                }
-            }
-            // Send the POST request
-            xmlhttp.setRequestHeader('Content-Type', 'text/xml');
-            xmlhttp.send(sr);
-            // send request
-            // ...
+            // xmlhttp.onreadystatechange = function () {
+            //     if (xmlhttp.readyState == 4) {
+            //       if (xmlhttp.status == 200) {
+            //         alert(xmlhttp.responseText);
+            //         }
+            //     }
+            // }
+            // // Send the POST request
+            // xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+            // xmlhttp.send(sr);
+            // // send request
+            // // ...
+        
+        return $http.post(proxy_url + base_url, sr, { headers: { 'Content-Type': 'text/xml' } });
       }
     }
   }])
 
   .controller('View1Ctrl', ['$scope', 'soapService', function($scope, soapService) {
 
+    $scope.body = '';
     $scope.soap = function () {
-      return soapService.soap();
+      // var body = '<NumberToWords xmlns="http://www.dataaccess.com/webservicesserver/">' +
+      //   '<ubiNum>500</ubiNum>' +
+      //   '</NumberToWords>';
+      
+      soapService.soap($scope.body).then(function (response) {
+        $scope.result = response.data;
+      })
     }
     
   }]);

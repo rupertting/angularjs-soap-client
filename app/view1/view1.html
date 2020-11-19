@@ -4,10 +4,13 @@
     <!-- <label>Enter number: <input type="number" ng-model="number"> </label><br>
     Words: <span> {{ returnWords(number)}} {{response}} </span> <br> -->
 
-    <form novalidate>
+    <form novalidate ng-submit="soap()">
         <div>
-            <input type="button" value="Soap" ng-click="soap();" /> <br>
-            <span> {{ result }} </span>
+            Enter XML body: 
+            <input type="text" ng-model="body"/>
+            <input type="submit" value="Submit"/> <br>
+            <!-- <input type="button" value="Soap" ng-click="soap();" /> <br> -->
+            <span>Result: {{ result }} </span>
         </div>
     </form>
 </body>
