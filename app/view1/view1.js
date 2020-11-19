@@ -11,51 +11,51 @@ angular.module('myApp.view1', ['ngRoute'])
   }])
 
   .factory("soapService", ['$http', function ($http) {
-    var base_url = "https://www.dataaccess.com/webservicesserver/NumberConversion.wso"
+    
     var proxy_url = "http://127.0.0.1:8080/"
 
     return {
-      soap: function (body) {
-        // var xmlhttp = new XMLHttpRequest();
-        //     xmlhttp.open('POST', proxy_url + base_url, true);
-
+      soap: function (body, soap_url, soapVersion) {
             // build SOAP request
-            var sr =
+            var sr11 =
                 '<?xml version="1.0" encoding="utf-8"?>' +
                   '<soap:Envelope ' +
                   'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
                     '<soap:Body>' + 
                       body +
                     '</soap:Body>' +
-                  '</soap:Envelope>';
-
-            // xmlhttp.onreadystatechange = function () {
-            //     if (xmlhttp.readyState == 4) {
-            //       if (xmlhttp.status == 200) {
-            //         alert(xmlhttp.responseText);
-            //         }
-            //     }
-            // }
-            // // Send the POST request
-            // xmlhttp.setRequestHeader('Content-Type', 'text/xml');
-            // xmlhttp.send(sr);
-            // // send request
-            // // ...
+                '</soap:Envelope>';
         
-        return $http.post(proxy_url + base_url, sr, { headers: { 'Content-Type': 'text/xml' } });
+            var sr12 =
+                '<?xml version="1.0" encoding="utf-8"?>' +
+                  '<soap12:Envelope xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">' +
+                    '<soap12:Body>' + 
+                      body +
+                    '</soap12:Body>' +
+                '</soap12:Envelope>';
+        
+        if (soapVersion === "1") {
+          return $http.post(proxy_url + soap_url, sr11, { headers: { 'Content-Type': 'text/xml' } });
+        }
+        return $http.post(proxy_url + soap_url, sr12, { headers: { 'Content-Type': 'text/xml' } });
       }
     }
   }])
 
   .controller('View1Ctrl', ['$scope', 'soapService', function($scope, soapService) {
 
-    $scope.body = '';
-    $scope.soap = function () {
-      // var body = '<NumberToWords xmlns="http://www.dataaccess.com/webservicesserver/">' +
-      //   '<ubiNum>500</ubiNum>' +
-      //   '</NumberToWords>';
-      
-      soapService.soap($scope.body).then(function (response) {
+    $scope.input = {
+      version: null,
+      versions: [
+        { id: "1", name: '1.1' },
+        { id: "2", name: '1.2' }
+      ],
+      body: null,
+      soapUrl: null
+    }
+    console.log($scope.input);
+    $scope.soapSubmit = function () {
+      soapService.soap($scope.input.body, $scope.input.soapUrl, $scope.input.version).then(function (response) {
         $scope.result = response.data;
       })
     }

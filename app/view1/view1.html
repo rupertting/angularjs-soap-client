@@ -1,15 +1,18 @@
 <p>This is the partial for view 1.</p>
 
 <body ng-controller="View1Ctrl">
-    <!-- <label>Enter number: <input type="number" ng-model="number"> </label><br>
-    Words: <span> {{ returnWords(number)}} {{response}} </span> <br> -->
-
-    <form novalidate ng-submit="soap()">
+    <form novalidate ng-submit="soapSubmit()">
         <div>
-            Enter XML body: 
-            <input type="text" ng-model="body"/>
+            <label for="soapVersions"> SOAP version: </label>
+            <select name="soapVersions" id="soapVersions" ng-model="input.version">
+                <option ng-repeat="v in input.versions" value="{{v.id}}">{{v.name}}</option>
+            </select> <br>
+
+            Enter SOAP URL:
+            <input type="text" ng-model="input.soapUrl"/> <br>
+            Enter XML innerbody: 
+            <input type="text" ng-model="input.body"/> <br>
             <input type="submit" value="Submit"/> <br>
-            <!-- <input type="button" value="Soap" ng-click="soap();" /> <br> -->
             <span>Result: {{ result }} </span>
         </div>
     </form>
