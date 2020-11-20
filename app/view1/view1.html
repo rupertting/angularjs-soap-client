@@ -1,7 +1,7 @@
 <p>This is the partial for view 1.</p>
 
 <body ng-controller="View1Ctrl">
-    <form novalidate ng-submit="soapSubmit()">
+    <form novalidate ng-submit="soapSubmit(xmlToJson)">
         <div>
             <label for="soapVersions"> SOAP version: </label>
             <select name="soapVersions" id="soapVersions" ng-model="input.version">

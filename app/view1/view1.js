@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.view1', ['ngRoute', 'proxy', 'soap'])
+angular.module('myApp.view1', ['ngRoute', 'proxy', 'soap', 'xml'])
 
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/view1', {
@@ -9,7 +9,7 @@ angular.module('myApp.view1', ['ngRoute', 'proxy', 'soap'])
     });
   }])
 
-  .controller('View1Ctrl', ['$scope', 'soapService', function($scope, soapService) {
+  .controller('View1Ctrl', ['$scope', 'soapService', 'xmlService', function($scope, soapService, xmlService) {
 
     $scope.input = {
       version: null,
@@ -21,10 +21,15 @@ angular.module('myApp.view1', ['ngRoute', 'proxy', 'soap'])
       soapUrl: null
     }
     
-    $scope.soapSubmit = function () {
-      soapService.soapRequest($scope.input.body, $scope.input.soapUrl, $scope.input.version).then(function (response) {
-        $scope.result = response.data;
+    $scope.soapSubmit = function (callback) {
+      soapService.soapRequest($scope.input.body, $scope.input.soapUrl, $scope.input.version)
+        .then(function (response) {
+          callback(response.data);
       })
+    }
+
+    $scope.xmlToJson = function (xml) {
+      $scope.result = xmlService.xmlToJson(xml, "");
     }
     
   }]);
