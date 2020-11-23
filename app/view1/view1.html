@@ -1,18 +1,30 @@
 <p>This is the partial for view 1.</p>
 
 <body ng-controller="View1Ctrl">
-    <form novalidate ng-submit="soapSubmit(xmlToJson)">
+    <form name="form" ng-submit="soapSubmit(xmlToJson)" novalidate>
         <div>
             <label for="soapVersions"> SOAP version: </label>
-            <select name="soapVersions" id="soapVersions" ng-model="input.version">
+            <select name="soapVersions" id="soapVersions" ng-model="input.version" required="">
                 <option ng-repeat="v in input.versions" value="{{v.id}}">{{v.name}}</option>
-            </select> <br>
+            </select> 
+            <div ng-show="form.$submitted || form.soapVersions.$touched">
+                <div ng-show="form.soapVersions.$error.required">Please select a SOAP version.</div>
+            </div>
+            <br>
 
             Enter SOAP URL:
-            <input type="text" ng-model="input.soapUrl"/> <br>
+            <input type="text" ng-model="input.soapUrl" name="soapUrl" required=""/> <br>
+            <div ng-show="form.$submitted || form.soapUrl.$touched">
+                <div ng-show="form.soapUrl.$error.required">Please enter the URL for the SOAP API.</div>
+            </div>
+
             Enter XML innerbody: 
-            <input type="text" ng-model="input.body"/> <br>
-            <input type="submit" value="Submit"/> <br>
+            <input type="text" ng-model="input.body" name="innerBody" required=""/> <br>
+            <div ng-show="form.$submitted || form.innerBody.$touched">
+                <div ng-show="form.innerBody.$error.required">Please enter the inner XML body for the SOAP request.</div>
+            </div>
+            <input type="submit" value="Submit"/>
+            <input type="button" ng-click="reset()" value="Reset"/> <br>
             <span>Result: {{ result }} </span>
         </div>
     </form>

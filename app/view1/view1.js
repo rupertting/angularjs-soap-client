@@ -10,7 +10,6 @@ angular.module('myApp.view1', ['ngRoute', 'proxy', 'soap', 'xml'])
   }])
 
   .controller('View1Ctrl', ['$scope', 'soapService', 'xmlService', function($scope, soapService, xmlService) {
-
     $scope.input = {
       version: null,
       versions: [
@@ -29,7 +28,13 @@ angular.module('myApp.view1', ['ngRoute', 'proxy', 'soap', 'xml'])
     }
 
     $scope.xmlToJson = function (xml) {
-      $scope.result = xmlService.xmlToJson(xml, "");
+      $scope.result = xmlService.xmlToJson(xml, " ");
+    }
+
+    $scope.reset = function () {
+      $scope.input.version = null;
+      $scope.input.body = null;
+      $scope.input.soapUrl = null;
     }
     
   }]);

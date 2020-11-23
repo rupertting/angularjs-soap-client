@@ -25,6 +25,11 @@ angular.module('soap', ['proxy'])
                     '</soap12:Body>' +
                 '</soap12:Envelope>';
         
+        if (soapVersion === null) {
+          alert("SOAP version required.");
+          return;
+        }
+        
         if (soapVersion === "1") {
           return $http.post(proxy_url + soap_url, sr11, { headers: { 'Content-Type': 'text/xml' } });
         }

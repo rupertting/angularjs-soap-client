@@ -23,3 +23,15 @@
   content: "|";
   padding-right: 0.3em;
 }
+
+input.ng-pristine {
+  background-color: yellow;
+}
+
+input.ng-touched.ng-invalid {
+  background-color: red;
+}
+
+input.ng-touched.ng-valid {
+  background-color: green;
+}
